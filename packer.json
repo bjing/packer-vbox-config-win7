@@ -1,0 +1,26 @@
+{
+  "builders": [{
+    "type": "virtualbox-ovf",
+    "source_path": "/Users/brian.jing/Downloads/SQLServer.ova",
+    "headless": false,
+    "guest_additions_mode": "disable",
+    "boot_wait": "30s",
+    "communicator": "winrm",
+    "winrm_username": "vagrant",
+    "winrm_password": "vagrant",
+    "winrm_timeout": "4h",
+    "winrm_port":5985,
+    "winrm_host":"localhost",
+    "shutdown_command": "shutdown /s /t 10 /f /d p:4:1 /c \"Packer Shutdown\"",
+    "vboxmanage": [
+      [ "modifyvm", "{{.Name}}", "--memory", "1024" ],
+      [ "modifyvm", "{{.Name}}", "--cpus", "1" ]
+    ]
+  }],
+  "provisioners": [{
+    "type": "powershell",
+    "scripts": [
+      "user-data.ps1"
+    ]
+  }]
+}
